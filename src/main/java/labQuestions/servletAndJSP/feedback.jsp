@@ -17,7 +17,7 @@
     if (name != null && email != null) {
         String url = "jdbc:postgresql://localhost:5432/userdb";
         String user = "postgres";
-        String pass = "your_password";
+        String pass = "Aa2023@#";
 
         try {
             Class.forName("org.postgresql.Driver");
