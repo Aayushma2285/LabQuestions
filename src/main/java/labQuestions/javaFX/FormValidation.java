@@ -6,13 +6,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-//testing commit
 public class FormValidation extends Application{
     @Override
     public void start(Stage stage) {
         Label titleLabel = new Label("Personal Details");
         titleLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
-
+// Local commit
         Label nameLabel = new Label("Name:");
         Label emailLabel = new Label("Email:");
         Label ageLabel = new Label("Age:");

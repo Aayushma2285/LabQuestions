@@ -12,7 +12,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import java.io.File;
+
 public class FileChooserApp extends Application{
     @Override
     public void start(Stage stage) {
