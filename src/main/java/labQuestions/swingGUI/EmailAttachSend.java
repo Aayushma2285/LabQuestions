@@ -16,64 +16,111 @@ import java.util.Properties;
 public class EmailAttachSend extends JFrame {
     JTextField toField, subjectField;
     JTextArea messageArea;
+    JTextArea attachmentArea;
     JButton attachBtn, sendBtn, viewBtn;
     File attachmentFile = null;
     JTable table;
 
-    public EmailAttachSend(){
+    public EmailAttachSend() {
         setTitle("Swing Email Sender");
-        setSize(700, 500);
-        setLayout(new FlowLayout());
+        setSize(800, 600);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(new BorderLayout(10, 10));
 
-        add(new JLabel("To:"));
-        toField = new JTextField(30);
-        add(toField);
+        JPanel topWrapper = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 15));
 
-        add(new JLabel("Subject:"));
-        subjectField = new JTextField(30);
-        add(subjectField);
+        JPanel formPanel = new JPanel();
+        formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
+        formPanel.setPreferredSize(new Dimension(350, 300));
 
-        add(new JLabel("Message:"));
-        messageArea = new JTextArea(5, 30);
-        add(new JScrollPane(messageArea));
+        JLabel toLabel = new JLabel("To:");
+        toField = new JTextField();
+        toField.setPreferredSize(new Dimension(300, 30));
+        toField.setMaximumSize(new Dimension(300, 30));
 
+        JLabel subjectLabel = new JLabel("Subject:");
+        subjectField = new JTextField();
+        subjectField.setPreferredSize(new Dimension(300, 30));
+        subjectField.setMaximumSize(new Dimension(300, 30));
+
+        JLabel messageLabel = new JLabel("Message:");
+        messageArea = new JTextArea(5, 25);
+        JScrollPane messageScroll = new JScrollPane(messageArea);
+        messageScroll.setPreferredSize(new Dimension(300, 100));
+
+        JLabel attachmentLabel = new JLabel("Attached File:");
+        attachmentArea = new JTextArea(2, 25);
+        attachmentArea.setEditable(false);
+        attachmentArea.setLineWrap(true);
+        attachmentArea.setWrapStyleWord(true);
+        JScrollPane attachmentScroll = new JScrollPane(attachmentArea);
+        attachmentScroll.setPreferredSize(new Dimension(300, 45));
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 5));
         attachBtn = new JButton("Attach File");
         sendBtn = new JButton("Send Email");
         viewBtn = new JButton("View Sent Emails");
 
-        add(attachBtn);
-        add(sendBtn);
-        add(viewBtn);
+        buttonPanel.add(attachBtn);
+        buttonPanel.add(sendBtn);
+        buttonPanel.add(viewBtn);
+
+        formPanel.add(toLabel);
+        formPanel.add(Box.createVerticalStrut(5));
+        formPanel.add(toField);
+        formPanel.add(Box.createVerticalStrut(10));
+
+        formPanel.add(subjectLabel);
+        formPanel.add(Box.createVerticalStrut(5));
+        formPanel.add(subjectField);
+        formPanel.add(Box.createVerticalStrut(10));
+
+        formPanel.add(messageLabel);
+        formPanel.add(Box.createVerticalStrut(5));
+        formPanel.add(messageScroll);
+        formPanel.add(Box.createVerticalStrut(10));
+
+        formPanel.add(attachmentLabel);
+        formPanel.add(Box.createVerticalStrut(5));
+        formPanel.add(attachmentScroll);
+        formPanel.add(Box.createVerticalStrut(10));
+
+        formPanel.add(buttonPanel);
+
+        topWrapper.add(formPanel);
+
+        add(topWrapper, BorderLayout.NORTH);
 
         table = new JTable();
-        add(new JScrollPane(table));
+        JScrollPane tableScroll = new JScrollPane(table);
+        add(tableScroll, BorderLayout.CENTER);
 
         attachBtn.addActionListener(e -> chooseFile());
         sendBtn.addActionListener(e -> sendEmail());
         viewBtn.addActionListener(e -> loadEmails());
 
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
     }
 
-    void chooseFile(){
+    void chooseFile() {
         JFileChooser chooser = new JFileChooser();
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             attachmentFile = chooser.getSelectedFile();
+            attachmentArea.setText(attachmentFile.getAbsolutePath());
             JOptionPane.showMessageDialog(this, "File Attached");
         }
     }
 
-    void sendEmail(){
+    void sendEmail() {
         String to = toField.getText();
         String subject = subjectField.getText();
         String message = messageArea.getText();
 
-        final String from = "your_email@gmail.com";
-        final String password = "your_app_password";
+        final String from = "aayurai268@gmail.com";
+        final String password = "pcpduatjvxtfswvd";
 
         Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
@@ -88,8 +135,7 @@ public class EmailAttachSend extends JFrame {
         try {
             Message msg = new MimeMessage(session);
             msg.setFrom(new InternetAddress(from));
-            msg.setRecipients(Message.RecipientType.TO,
-                    InternetAddress.parse(to));
+            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
             msg.setSubject(subject);
 
             Multipart multipart = new MimeMultipart();
@@ -107,7 +153,6 @@ public class EmailAttachSend extends JFrame {
             msg.setContent(multipart);
 
             Transport.send(msg);
-
             saveToDatabase(to, subject, message);
 
             JOptionPane.showMessageDialog(this, "Email Sent");
@@ -119,11 +164,17 @@ public class EmailAttachSend extends JFrame {
 
     void saveToDatabase(String to, String subject, String message) {
         try {
+            Class.forName("org.postgresql.Driver");
+
             Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/emaildb", "root", "password");
+                    "jdbc:postgresql://localhost:5432/emaildb",
+                    "postgres",
+                    "Aa2023@#"
+            );
 
             PreparedStatement ps = con.prepareStatement(
-                    "INSERT INTO sent_emails(recipient,subject,message,attachment) VALUES(?,?,?,?)");
+                    "INSERT INTO sent_emails(recipient, subject, message, attachment) VALUES (?, ?, ?, ?)"
+            );
 
             ps.setString(1, to);
             ps.setString(2, subject);
@@ -140,14 +191,20 @@ public class EmailAttachSend extends JFrame {
 
     void loadEmails() {
         try {
+            Class.forName("org.postgresql.Driver");
+
             Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/emaildb", "root", "password");
+                    "jdbc:postgresql://localhost:5432/emaildb",
+                    "postgres",
+                    "Aa2023@#"
+            );
 
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery("SELECT * FROM sent_emails");
 
             DefaultTableModel model = new DefaultTableModel(
-                    new String[]{"ID", "Recipient", "Subject", "Message", "Attachment", "Time"}, 0);
+                    new String[]{"ID", "Recipient", "Subject", "Message", "Attachment", "Time"}, 0
+            );
 
             while (rs.next()) {
                 model.addRow(new Object[]{
