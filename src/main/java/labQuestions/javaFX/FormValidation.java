@@ -11,7 +11,6 @@ public class FormValidation extends Application{
     public void start(Stage stage) {
         Label titleLabel = new Label("Personal Details");
         titleLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
-// Local commit
         Label nameLabel = new Label("Name:");
         Label emailLabel = new Label("Email:");
         Label ageLabel = new Label("Age:");

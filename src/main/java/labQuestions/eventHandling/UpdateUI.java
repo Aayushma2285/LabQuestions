@@ -7,7 +7,7 @@ import java.awt.event.*;
 public class UpdateUI {
     public static void main(String[] args) {
 
-        JFrame frame = new JFrame("Dynamic UI Example");
+        JFrame frame = new JFrame("UI Change Demo");
         frame.setSize(400, 300);
         frame.setLayout(new FlowLayout());
 

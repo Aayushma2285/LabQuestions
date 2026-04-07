@@ -30,6 +30,7 @@ public class EmailAttachSend extends JFrame {
 
         JPanel topWrapper = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 15));
 
+
         JPanel formPanel = new JPanel();
         formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
         formPanel.setPreferredSize(new Dimension(350, 300));
@@ -84,7 +85,7 @@ public class EmailAttachSend extends JFrame {
         formPanel.add(attachmentLabel);
         formPanel.add(Box.createVerticalStrut(5));
         formPanel.add(attachmentScroll);
-        formPanel.add(Box.createVerticalStrut(10));
+        formPanel.add(Box.createVerticalStrut(0x10));
 
         formPanel.add(buttonPanel);
 

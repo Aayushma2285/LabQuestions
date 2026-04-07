@@ -1,0 +1,26 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="JavaSeventh:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/JavaSeventh_war_exploded</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="JavaSeventh" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: com.sun.mail:jakarta.mail:2.0.1" />
+          <element id="library" level="project" name="Maven: com.sun.activation:jakarta.activation:2.0.1" />
+          <element id="library" level="project" name="Maven: org.postgresql:postgresql:42.7.3" />
+          <element id="library" level="project" name="Maven: org.checkerframework:checker-qual:3.42.0" />
+          <element id="library" level="project" name="Maven: org.openjfx:javafx-controls:21.0.1" />
+          <element id="library" level="project" name="Maven: org.openjfx:javafx-controls:win:21.0.1" />
+          <element id="library" level="project" name="Maven: org.openjfx:javafx-graphics:21.0.1" />
+          <element id="library" level="project" name="Maven: org.openjfx:javafx-graphics:win:21.0.1" />
+          <element id="library" level="project" name="Maven: org.openjfx:javafx-base:21.0.1" />
+          <element id="library" level="project" name="Maven: org.openjfx:javafx-base:win:21.0.1" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="JavaSeventh/web/Web" />
+      <element id="dir-copy" path="$PROJECT_DIR$/src/main/webapp" />
+    </root>
+  </artifact>
+</component>

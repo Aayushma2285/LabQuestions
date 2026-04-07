@@ -4,9 +4,9 @@ import java.sql.*;
 import java.util.Scanner;
 
 public class ContactBook {
-    static final String URL = "";
-    static final String USER = "";
-    static final String PASS = "";
+    static final String URL = "jdbc:postgresql://localhost:5432/contactdb";
+    static final String USER = "postgres";
+    static final String PASS = "Aa2023@#";
 
     static Scanner sc = new Scanner(System.in);
 
@@ -93,7 +93,7 @@ public class ContactBook {
             System.out.println("Enter the new mobile number: ");
             String mobile = sc.nextLine();
 
-            String sql = "UPDATE contacts SET name=?, eamil=?, mobile=?, WHERE id = ?";
+            String sql = "UPDATE contacts SET name=?, email=?, mobile=? WHERE id=?";
             PreparedStatement ps = con.prepareStatement(sql);
 
             ps.setString(1, name);
